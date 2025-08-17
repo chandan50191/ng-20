@@ -1,0 +1,40 @@
+<p>roles works!</p>
+
+<div class="row mb-5">
+    <div class="col-3 mb-2">{{name}}</div>
+    <div class="col-3 mb-2">{{version}}</div>
+    <div class="col-3 mb-2">{{isActive}}</div>
+    <div class="col-3 mb-2">{{currentDate}}</div>
+    <div class="col-3 mb-2">{{selectedState}}</div>
+
+    <hr>
+</div>
+
+<div class="row">
+ <div class="col-3 mb-2">
+    <!-- This property binding to input element -->
+    <input type="text" [value]="name" class="form-control" />
+ </div>
+ <div class="col-3 mb-2">
+    <!-- This is two way data binding  in input element-->
+    <input type="text" [(ngModel)]="name" class="form-control"/>
+ </div>
+ <div class="col-3 mb-2">
+    <!-- input type property binding -->
+     <input [type]="inputType" />
+ </div>
+
+  <div class="col-3 mb-2">
+    <!-- input type property binding -->
+     <select [(ngModel)]="selectedState" class="form-select">
+        <option value="MH">MH</option>
+         <option value="BH">BH</option>
+          <option value="JH">JH</option>
+     </select>
+ </div>
+<div class="col-3 mb-2">
+    <button type="button" class="btn btn-success" (click)="showMessage('Learn Angular')">Show message</button>
+</div>
+</div>
+<div class="row"></div>
+<div class="row"></div>

@@ -1,0 +1,13 @@
+<!-- Example for ngFor -->
+<div class="row">
+    <div class="col-4">
+        <ul>
+        <li *ngFor="let item of roleList">{{item.role}}</li>
+        </ul>
+    </div>
+    <div class="col-4">
+        <select name="" id="" class="form-select">
+            <option *ngFor="let item of roleList" [value]="item.roleId">{{item.role}}</option>
+        </select>
+    </div>
+</div>

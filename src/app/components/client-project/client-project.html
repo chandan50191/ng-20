@@ -1,0 +1,186 @@
+<app-alert [alertType]="'Success'" [message]="'Success! You should read this message.'"></app-alert>
+<div class="row col-12">
+  <!-- Call a signal -->
+   <div class="col-10">
+       {{firstname()}}
+   <button (click)="changefname()">Change first name</button>
+   </div>
+
+</div>
+<div class="row">
+  <!-- Client List Section -->
+   <div class="row">
+  <div class="col-8">
+    <!-- <div class="col-12">
+      <ul>
+        <li>client list</li>
+        @for (item of (clintList$ | async)?.data; track $index) {
+        <li>{{$index}}-{{ item.companyName }}</li>
+        }
+      </ul>
+    </div> -->
+    <div class="card table-responsive">
+      <div class="card-header">
+        Client List
+      </div>
+      <div class="card-body">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Client ID</th>
+                  <th>Contact Person</th>
+                  <th>Company Name</th>
+                  <th>State</th>
+                  <th>Employee Strength</th>
+                  <th>GST No</th>
+                  <th>Contact No</th>
+                  <th>Reg No</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let client of clientList">
+                  <td>{{ client.clientId }}</td>
+                  <td>{{ client.contactPersonName }}</td>
+                  <td>{{ client.companyName | uppercase}}</td>
+                  <td>{{ client.state }}</td>
+                  <td>{{ client.employeeStrength }}</td>
+                  <td>{{ client.gstNo }}</td>
+                  <td>{{ client.contactNo }}</td>
+                  <td>{{ client.regNo }}</td>
+                  <td class="text-center">
+                    <button class="btn btn-sm btn-primary me-1" (click)="editClient(client)">Edit</button>
+
+                    <button class="btn btn-sm btn-danger" (click)="deleteClient(client.clientId)">Delete</button>
+
+                  </td>
+                </tr>
+                <tr *ngIf="clientList.length === 0">
+                  <td colspan="12" class="text-center text-muted">No clients found.</td>
+                </tr>
+              </tbody>
+            </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Client Form Section -->
+  <div class="col-4">
+    <div class="card">
+      <div class="card-header">
+        {{ clientObj.clientId ? 'Edit Client' : 'New Client' }}
+      </div>
+      <div class="card-body">
+        <form [formGroup]="clientProjectForm">
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>Project Name</label>
+            <input type="text" class="form-control" formControlName="projectName" />
+            @if (clientProjectForm.controls['projectName'].touched) {
+            <div class="text-danger">
+              @if (clientProjectForm.controls['projectName'].errors?.['required']) {
+              <span>This is required field</span>
+              }
+              @if (clientProjectForm.controls['projectName'].errors?.['minlength']) {
+              <span>minimum 4 charreacter required</span>
+              }
+            </div>
+            }
+            
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>Start Date</label>
+            <input type="text" class="form-control" formControlName="startDate"/>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>Expected End Date</label>
+            <input type="text" class="form-control" formControlName="expectedEndDate" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>completedDate</label>
+            <input type="text" class="form-control" formControlName="completedDate"/>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>contactPerson</label>
+            <input type="text" class="form-control" formControlName="contactPerson" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>contactPersonContactNo</label>
+            <input type="number" class="form-control" formControlName="contactPersonContactNo" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>totalEmpWorking</label>
+            <input type="text" class="form-control" formControlName="totalEmpWorking" />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-12">
+            <label>projectCost</label>
+            <input type="text" class="form-control" formControlName="projectCost" />
+          </div>
+        </div>
+         <div class="row mb-3">
+          <div class="col-12">
+            <label>Project Details</label>
+            <textarea id="" formControlName="projectDetails" class="form-control"></textarea>
+          </div>
+        </div>
+         <div class="row mb-3">
+          <div class="col-12">
+            <label>contactPersonEmailId</label>
+            <input type="text" class="form-control" formControlName="contactPersonEmailId" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>Lead By</label>
+            <select formControlName="leadByEmpId" class="form-control">
+              <option value="">Select Employee</option>
+              @for (item of employeeList; track $index) {
+                <option [value]="item.empEmailId">{{item.empName}} - {{item.empCode}}</option>
+              }
+            </select>
+          </div>
+        </div>
+         <div class="row mb-3">
+          <div class="col-12">
+            <label>clientId</label>
+            <select formControlName="clientId" class="form-control">
+              <option value="">Select Client</option>
+              @for (item of clientList; track $index) {
+                <option [value]="item.clientId">{{item.companyName}}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6 text-start">
+            <button [disabled]="clientProjectForm.invalid" class="btn btn-success w-100" (click)="saveEmployee()">
+              {{ clientObj.clientId ? 'Update' : 'Add' }} Employee
+            </button>
+          </div>
+          <div class="col-6 text-end">
+            <button class="btn btn-secondary w-100" type="button" (click)="resetForm('Manager')">Clear</button>
+            <!-- Example of @output property decorator -->
+            <app-custom-button (onBtnClicked)="resetForm($event)" [btnClass]="'btn btn-danger'" [btnText]="'Clear custom'"></app-custom-button>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

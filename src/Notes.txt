@@ -1,0 +1,201 @@
+
+Data binding in Angular
+interpolation {{}}
+property binding using [] like [type]="inputType"
+Two way data banding [(ngModel)] . Note: ngModel is part of FormModule import
+event binding using () like (click)="handleSubmit()"
+
+Directives
+1. Structural - *ngIf, *ngFor, e.g: *ngIf="condition ? 'component1':'component2'"
+2. attribute - ngClass, ngStyle e.g: [ngClass]="condition ? 'class1':'class2'"
+
+providerHttpClient - angular http request, first to registered in app config providers 
+
+make service for all api call
+make model for objects 
+use of new dependency injection using inject(HttpClient)
+
+How to get api calls in component
+How to subcribe any observable like api calls
+
+*ngFor directive and @for loop
+
+Control flow statement - @if , @for, @switch 
+
+Routing - Routes, <router-outlet />, routerLink, routerLinkActive
+
+Reactive form -- all validation are done in components .ts file
+
+Pipes like | Date - Now in angular we need to import in imports like UpperCasePipe, AsyncPipe, DatePipe
+
+
+1. signals - A signal is a special variable that: 
+Holds a value
+Notifies Angular automatically when the value changes
+Triggers UI updates without ChangeDetectorRef or async pipe
+
+2. signals - Signals are functions → you call them to read their current value.
+
+3. signals behave like a variable:
+count = signal(0);  // like a variable with initial value 0
+count.set(5);       // like assigning a new value
+count.update(c => c + 1); // Update the value
+// derives a value from other signals
+double = computed(() => this.count() * 2);
+// runs side-effects when signals change
+effect(() => {
+  console.log("Count changed:", this.count());
+});
+
+So main API of a signal are set, update, computed and effect.
+
+signals behave like a function
+console.log(count());
+
+4. When to use Signals vs Observables?
+Use signals for local, component-level reactive state (like form state, counters, toggles, UI state).
+Use Observables for streams of asynchronous events (HTTP requests, WebSockets, timers).
+
+5. Angular signals feel a lot like React’s useState + useEffect, but there are some important differences.
+
+Key Similarities
+count = signal(0); // Angular signal
+const [count, setCount] = useState(0); // React useState
+a. Both store a reactive value.
+b. Both cause the UI to re-render when the value changes.
+
+// React
+useEffect(() => {
+  console.log("Count changed:", count);
+}, [count]);
+
+// Angular
+effect(() => {
+  console.log("Count changed:", this.count());
+});
+
+c. Both run side-effects when state changes.
+d. Both automatically track dependencies.
+
+Key Differences
+a. Signals are synchronous, useEffect is async
+In React, useEffect runs after render (async).
+In Angular, effect runs immediately when dependencies change.
+
+b. Signals are functions, not arrays
+React useState gives [value, setValue].
+Angular signal gives a callable: count() to read, count.set() to write.
+
+c. No dependency array needed in Angular
+React: [count] must be listed manually.
+Angular: dependencies are tracked automatically inside the effect.
+
+d. Integrated with change detection
+In React, state changes trigger a component re-render.
+In Angular, signals tell the template exactly what changed, so it’s more efficient.
+
+// Re-usable component on Angular
+// Input decorator -- for pass data from child to parent
+we can use Input property decorator for custom property
+// TS
+  // Input is called property decorator
+  @Input() alertType: string = '';
+  @Input() message: string = '';
+
+// html 
+<!-- Either you can use normal html class or property binding not both -->
+<div class="" [className]="alertType == 'Success' ? 'alert alert-success':'alert alert-danger'">
+  <strong>{{alertType}} !</strong> {{message}}
+</div>
+  
+and use in other component
+<app-alert [alertType]="'Success'" [message]="'Success! You should read this message.'"></app-alert>
+
+// Output decorator -- for pass data from parent to child
+@Output() is used in a child component to emit events to a parent component.
+It works together with EventEmitter.
+This is how Angular lets child → parent communication happen.
+
+export class ChildComponent {
+  // 1. Declare output event
+  @Output() messageEvent = new EventEmitter<string>();
+
+  // 2. Emit event
+  sendMessage() {
+    this.messageEvent.emit("Hello Parent, I am your child!");
+  }
+}
+
+// Parent html - Note $event in must
+<app-child (messageEvent)="receiveMessage($event)"></app-child>
+
+// Parent TS
+export class ParentComponent {
+  message = '';
+
+  // Method to handle event
+  receiveMessage(event: string) {
+    this.message = event;
+  }
+}
+
+
+// What is a Guard?
+In Angular, a guard is a feature of the Router that lets you control navigation.
+Guards are functions (or services) that run before or during navigation.
+
+// Types of Guards
+Angular provides different guard interfaces:
+a. CanActivate → check before navigating to a route
+b. CanDeactivate → check before leaving a route
+c. CanActivateChild → check before accessing child routes
+d. CanMatch → check if a route should even match (useful for role-based modules)
+e. Resolve → fetch data before activating a route
+
+export const authGuard: CanActivateFn = () => {
+  const username = localStorage.getItem("user");
+
+  const router = inject(Router);
+  if(username)  return true;
+
+  router.navigateByUrl('login')
+  return false;
+};
+
+export const routes: Routes = [
+    {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+    },
+    {
+        path: 'login',
+        component: Login
+    },
+    {
+        path: '',
+        component: Layout,
+        canActivate: [authGuard], // Use in parent path or indivisual path
+        children: [
+            {
+                path: 'employee',
+                component: Employee
+            },
+            {
+                path: 'client',
+                component: Client
+            }
+        ]
+    },
+
+];
+
+
+
+
+
+ 
+
+
+
+  

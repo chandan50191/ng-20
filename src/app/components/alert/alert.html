@@ -1,0 +1,4 @@
+<!-- Either you can use normal html class or property binding not both -->
+<div class="" [className]="alertType == 'Success' ? 'alert alert-success':'alert alert-danger'">
+  <strong>{{alertType}} !</strong> {{message}}
+</div>

@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-12">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <!-- Use case of attribute directive -->
+            <button type="button" (click)="changeTab('Roles')"
+                [ngClass]="currentComponent == 'Roles' ? 'btn-success':'btn-primary'" class="btn">Roles</button>
+            <button type="button" (click)="changeTab('Designation')"
+                [ngClass]="currentComponent == 'Designation' ? 'btn-success':'btn-primary'"
+                class="btn btn-primary">Designation</button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Use case of Structural directive -->
+    <div class="col-12" *ngIf="currentComponent == 'Roles'">
+        <app-roles></app-roles>
+    </div>
+    <div class="col-12" *ngIf="currentComponent == 'Designation'">
+        <app-designation></app-designation>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <app-emp-roles></app-emp-roles>
+    </div>
+</div>

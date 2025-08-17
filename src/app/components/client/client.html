@@ -1,0 +1,139 @@
+<div class="row">
+  <!-- Client List Section -->
+  <div class="col-8">
+    <div class="card">
+      <div class="card-header">
+        Client List
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Client ID</th>
+                  <th>Contact Person</th>
+                  <th>Company Name</th>
+                  <th>Address</th>
+                  <th>City</th>
+                  <th>Pincode</th>
+                  <th>State</th>
+                  <th>Employee Strength</th>
+                  <th>GST No</th>
+                  <th>Contact No</th>
+                  <th>Reg No</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let client of clientList">
+                  <td>{{ client.clientId }}</td>
+                  <td>{{ client.contactPersonName }}</td>
+                  <td>{{ client.companyName }}</td>
+                  <td>{{ client.address }}</td>
+                  <td>{{ client.city }}</td>
+                  <td>{{ client.pincode }}</td>
+                  <td>{{ client.state }}</td>
+                  <td>{{ client.employeeStrength }}</td>
+                  <td>{{ client.gstNo }}</td>
+                  <td>{{ client.contactNo }}</td>
+                  <td>{{ client.regNo }}</td>
+                  <td class="text-center">
+                    <button class="btn btn-sm btn-primary me-1" (click)="editClient(client)">Edit</button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteClient(client.clientId)">Delete</button>
+                  </td>
+                </tr>
+                <tr *ngIf="clientList.length === 0">
+                  <td colspan="12" class="text-center text-muted">No clients found.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Client Form Section -->
+  <div class="col-4">
+    <div class="card">
+      <div class="card-header">
+        {{ clientObj.clientId ? 'Edit Client' : 'New Client' }}
+      </div>
+      <div class="card-body">
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>Contact Person</label>
+            <input type="text" class="form-control" [(ngModel)]="clientObj.contactPersonName" name="contactPersonName" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>Company Name</label>
+            <input type="text" class="form-control" [(ngModel)]="clientObj.companyName" name="companyName" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>Address</label>
+            <input type="text" class="form-control" [(ngModel)]="clientObj.address" name="address" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>City</label>
+            <input type="text" class="form-control" [(ngModel)]="clientObj.city" name="city" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>Pincode</label>
+            <input type="text" class="form-control" [(ngModel)]="clientObj.pincode" name="pincode" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>State</label>
+            <input type="text" class="form-control" [(ngModel)]="clientObj.state" name="state" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>Employee Strength</label>
+            <input type="number" class="form-control" [(ngModel)]="clientObj.employeeStrength" name="employeeStrength" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>GST No</label>
+            <input type="text" class="form-control" [(ngModel)]="clientObj.gstNo" name="gstNo" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>Contact No</label>
+            <input type="text" class="form-control" [(ngModel)]="clientObj.contactNo" name="contactNo" />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-12">
+            <label>Reg No</label>
+            <input type="text" class="form-control" [(ngModel)]="clientObj.regNo" name="regNo" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6 text-start">
+            <button class="btn btn-success w-100" (click)="saveClient()">
+              {{ clientObj.clientId ? 'Update' : 'Add' }} Client
+            </button>
+          </div>
+          <div class="col-6 text-end">
+            <button class="btn btn-secondary w-100" type="button" (click)="resetForm()">Clear</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
