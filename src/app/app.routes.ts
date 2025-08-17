@@ -6,6 +6,7 @@ import { ClientProject } from './components/client-project/client-project';
 import { Login } from './components/login/login';
 import { Layout } from './components/layout/layout';
 import { authGuard } from './gaurd/auth-guard';
+import { ClientComponent } from './components/local-storage-crud-example/client/client';
 
 export const routes: Routes = [
     {
@@ -37,6 +38,10 @@ export const routes: Routes = [
             {
                 path: 'client-project',
                 component: ClientProject
+            },
+            {
+                path: 'client-crud',
+                component: ClientComponent
             }
         ]
     },
